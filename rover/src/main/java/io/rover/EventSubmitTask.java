@@ -3,7 +3,6 @@ package io.rover;
 import android.content.Context;
 import android.util.Log;
 
-import com.google.android.gms.location.internal.ParcelableGeofence;
 
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -92,18 +91,6 @@ public class EventSubmitTask implements Runnable, JsonApiResponseHandler.JsonApi
 
         if (response instanceof Event) {
             mCallback.onEventRegistered((Event)response);
-        }
-
-        ArrayList<ParcelableGeofence> geofences = new ArrayList<ParcelableGeofence>();
-
-        for (Object object : includedObject) {
-            if (object instanceof ParcelableGeofence) {
-                geofences.add((ParcelableGeofence)object);
-            }
-        }
-
-        if (geofences.size() > 0) {
-            mCallback.onReceivedGeofences(geofences);
         }
 
 

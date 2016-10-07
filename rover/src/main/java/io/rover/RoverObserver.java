@@ -1,6 +1,5 @@
 package io.rover;
 
-import com.google.android.gms.location.Geofence;
 
 import java.util.List;
 
@@ -13,9 +12,6 @@ import io.rover.model.Place;
  */
 public interface RoverObserver {
 
-    interface GeofenceRegistrationObserver extends RoverObserver {
-        void onRegisteredGeofences(List<Geofence> geofences);
-    }
 
     interface GeofenceTransitionObserver extends RoverObserver {
         void onEnterGeofence(Place place);

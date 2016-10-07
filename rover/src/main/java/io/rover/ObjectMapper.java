@@ -3,9 +3,6 @@ package io.rover;
 import android.graphics.Color;
 import android.util.Log;
 
-import com.google.android.gms.location.Geofence;
-import com.google.android.gms.nearby.messages.Strategy;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,7 +27,6 @@ import io.rover.model.Block;
 import io.rover.model.ButtonBlock;
 import io.rover.model.Experience;
 import io.rover.model.Font;
-import io.rover.model.GeofenceTransitionEvent;
 import io.rover.model.Image;
 import io.rover.model.ImageBlock;
 import io.rover.model.Inset;
@@ -74,19 +70,7 @@ public class ObjectMapper implements JsonApiResponseHandler.JsonApiObjectMapper 
                         // just return the same object
                         break;
                     case "geofence-region":
-                        Place place = getPlace(attributes.getJSONObject("place"));
-                        GeofenceTransitionEvent event = null;
-                        switch (action) {
-                            case "enter":
-                                event = new GeofenceTransitionEvent(null, Geofence.GEOFENCE_TRANSITION_ENTER, null);
-                                event.setPlace(place);
-                                break;
-                            case "exit":
-                                event = new GeofenceTransitionEvent(null, Geofence.GEOFENCE_TRANSITION_EXIT, null);
-                                event.setPlace(place);
-                                break;
-                        }
-                        return event;
+                        return null;
                     case "beacon-region":
                         break;
                 }
@@ -97,7 +81,7 @@ public class ObjectMapper implements JsonApiResponseHandler.JsonApiObjectMapper 
                 double lng = attributes.getDouble("longitude");
                 double radius = attributes.getDouble("radius");
 
-                return getGeofence(id, lat, lng, (float) radius);
+                return null;
             }
             case "messages": {
                 String title = attributes.getString("android-title");
@@ -554,19 +538,6 @@ public class ObjectMapper implements JsonApiResponseHandler.JsonApiObjectMapper 
         }
 
         return null;
-    }
-
-    private Geofence getGeofence(String id, double lattitude, double longitude, float radius) {
-        if (id == null) {
-            return null;
-        }
-
-        return new Geofence.Builder()
-                .setRequestId(id)
-                .setCircularRegion(lattitude, longitude, radius)
-                .setExpirationDuration(Geofence.NEVER_EXPIRE)
-                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT)
-                .build();
     }
 
     private Place getPlace(JSONObject attributes) throws JSONException{

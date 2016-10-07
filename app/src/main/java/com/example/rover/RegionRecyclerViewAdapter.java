@@ -8,21 +8,20 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.rover.RegionFragment.OnRegionFragmentInteractionListener;
-import com.google.android.gms.location.Geofence;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link Geofence} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link } and makes a call to the
  * specified {@link OnRegionFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class RegionRecyclerViewAdapter extends RecyclerView.Adapter<RegionRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Geofence> mValues;
+    private final List<Object> mValues;
     private final OnRegionFragmentInteractionListener mListener;
 
-    public RegionRecyclerViewAdapter(List<Geofence> items, OnRegionFragmentInteractionListener listener) {
+    public RegionRecyclerViewAdapter(List<Object> items, OnRegionFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -36,27 +35,7 @@ public class RegionRecyclerViewAdapter extends RecyclerView.Adapter<RegionRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        Geofence geofence = mValues.get(position);
 
-        final String id = geofence.getRequestId();
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText("G");
-        holder.mContentView.setText(id);
-
-        if (mListener != null) {
-            holder.mEnterButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mListener.onRegionFragmentEnterClick(id);
-                }
-            });
-            holder.mExitButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mListener.onRegionFragmentExitClick(id);
-                }
-            });
-        }
     }
 
     @Override
@@ -69,7 +48,7 @@ public class RegionRecyclerViewAdapter extends RecyclerView.Adapter<RegionRecycl
         notifyDataSetChanged();
     }
 
-    public void addAll(List<Geofence> list) {
+    public void addAll(List<Object> list) {
         mValues.addAll(list);
         notifyDataSetChanged();
     }
@@ -80,7 +59,6 @@ public class RegionRecyclerViewAdapter extends RecyclerView.Adapter<RegionRecycl
         public final TextView mContentView;
         public final Button mEnterButton;
         public final Button mExitButton;
-        public Geofence mItem;
 
         public ViewHolder(View view) {
             super(view);

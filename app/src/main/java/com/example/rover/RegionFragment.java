@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.location.Geofence;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +73,7 @@ public class RegionFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            mAdapter = new RegionRecyclerViewAdapter(new ArrayList<Geofence>(), mListener);
+            mAdapter = new RegionRecyclerViewAdapter(new ArrayList<>(), mListener);
             recyclerView.setAdapter(mAdapter);
         }
         return view;
@@ -96,8 +95,7 @@ public class RegionFragment extends Fragment {
                     + " must implement OnRegionFragmentInteractionListener");
         }
 
-        mRoverObserver = new MyRoverObserver();
-        Rover.addObserver(mRoverObserver);
+
     }
 
     @Override
@@ -123,13 +121,5 @@ public class RegionFragment extends Fragment {
         void onRegionFragmentExitClick(String id);
     }
 
-    private class MyRoverObserver implements RoverObserver.GeofenceRegistrationObserver {
-        @Override
-        public void onRegisteredGeofences(List<Geofence> geofences) {
-            if (mAdapter != null) {
-                mAdapter.clear();
-                mAdapter.addAll(geofences);
-            }
-        }
-    }
+
 }

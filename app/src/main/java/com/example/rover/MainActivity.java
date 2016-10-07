@@ -31,9 +31,6 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
 
 import org.w3c.dom.Text;
 
@@ -41,7 +38,6 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 import io.rover.ExperienceActivity;
-import io.rover.GoogleApiConnection;
 import io.rover.RemoteScreenActivity;
 import io.rover.RoverObserver;
 import io.rover.model.Action;
@@ -204,34 +200,7 @@ public class MainActivity extends AppCompatActivity implements MessageFragment.O
     }
 
     public void onUpdateLocationClicked(View view) {
-        //Rover.updateLocation();
-        GoogleApiConnection connection = new GoogleApiConnection(getApplicationContext());
 
-        final LocationRequest locationRequest = new LocationRequest()
-                .setInterval(1)
-                .setFastestInterval(1)
-                .setSmallestDisplacement(0)
-                .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-
-        final Context context = getApplicationContext();
-
-        connection.setCallbacks(new GoogleApiConnection.Callbacks() {
-            @Override
-            public int onConnected(final GoogleApiClient client) {
-
-                if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                    LocationServices.FusedLocationApi.requestLocationUpdates(client, locationRequest, new LocationListener() {
-                        @Override
-                        public void onLocationChanged(Location location) {
-                            client.disconnect();
-                            //Rover.updateLocation(location);
-                        }
-                    });
-                }
-                return GoogleApiConnection.KEEP_ALIVE;
-            }
-        });
-        connection.connect();
     }
 
     @Override
@@ -247,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements MessageFragment.O
                     if (isChecked) {
                         startMonitoring();
                     } else {
-                        Rover.stopMonitoring();
+
                     }
                 }
             });
@@ -263,11 +232,11 @@ public class MainActivity extends AppCompatActivity implements MessageFragment.O
             if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
             } else {
-                Rover.startMonitoring();
+
             }
         } else {
             // Pre-Marshmallow
-            Rover.startMonitoring();
+
         }
     }
 
@@ -275,7 +244,7 @@ public class MainActivity extends AppCompatActivity implements MessageFragment.O
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == 0) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Rover.startMonitoring();
+
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -319,12 +288,12 @@ public class MainActivity extends AppCompatActivity implements MessageFragment.O
 
     @Override
     public void onRegionFragmentEnterClick(String id) {
-        Rover.simulateGeofenceEnter(id);
+
     }
 
     @Override
     public void onRegionFragmentExitClick(String id) {
-        Rover.simulateGeofenceExit(id);
+
     }
 
     /**

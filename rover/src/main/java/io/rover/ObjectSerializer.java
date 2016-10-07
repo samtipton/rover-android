@@ -3,7 +3,6 @@ package io.rover;
 import android.content.Context;
 import android.util.Log;
 
-import com.google.android.gms.location.Geofence;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,7 +22,6 @@ import io.rover.model.DeviceUpdateEvent;
 import io.rover.model.Event;
 import io.rover.model.ExperienceDismissEvent;
 import io.rover.model.ExperienceLaunchEvent;
-import io.rover.model.GeofenceTransitionEvent;
 import io.rover.model.GimbalPlaceTransitionEvent;
 import io.rover.model.LocationUpdateEvent;
 import io.rover.model.Message;
@@ -101,12 +99,6 @@ public class ObjectSerializer implements JsonApiPayloadProvider.JsonApiObjectSer
                 jsonObject.put("latitude", luEvent.getLocation().getLatitude());
                 jsonObject.put("longitude", luEvent.getLocation().getLongitude());
                 jsonObject.put("accuracy", luEvent.getLocation().getAccuracy());
-            } else if (event instanceof GeofenceTransitionEvent) {
-                GeofenceTransitionEvent gtEvent = (GeofenceTransitionEvent) event;
-
-                jsonObject.put("object", "geofence-region");
-                jsonObject.put("action", gtEvent.getGeofenceTransition() == Geofence.GEOFENCE_TRANSITION_EXIT ? "exit" : "enter");
-                jsonObject.put("identifier", gtEvent.getGeofenceId());
             } else if (event instanceof BeaconTransitionEvent) {
                 BeaconTransitionEvent btEvent = (BeaconTransitionEvent) event;
 
